@@ -37,12 +37,16 @@ We therefore build a web-application where polica analysts can upload a policy d
   <img width="400" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/semantic_search.png" alt="semantic_search">
 </p>
 
+## 4) Coherence to national NDC
+  * compare policy to NDC document 
+
 Open Questions:
   * Processing only machine readable PDF and Docx
   * how to split long documents
   * Summarization possible with OS ressources (Transformer; runtime, usage limits)
   * SDG classification with OS ressources (Transformer; runtime, usage limits)
   * vector search with OS ressources (Transformer; runtime, usage limits)
+  * Coherence measurement BLEU score vs. text similarity vs. ...
   * Streamlit vs. Gradio (Spaces)
   * Adapting model to domain
   * Multiligunal models vs translation
