@@ -1,4 +1,4 @@
-<p align="rigth">
+<p align="right">
   <img width="400" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/sdsn.png" alt="sdsn">
 </p> 
     
