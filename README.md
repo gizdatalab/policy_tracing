@@ -1,5 +1,6 @@
-<img width="600" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/sdsn.png" alt="sdsn">
-  
+<p align="rigth">
+  <img width="400" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/sdsn.png" alt="sdsn">
+ </p> 
     
 # Tracing Policy Implementations 2.0
 scaling development of the ETH Hack4Good with SDSN  
