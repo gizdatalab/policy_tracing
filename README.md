@@ -19,5 +19,13 @@ Excample Policy Document: [National REDD SA](https://www.researchgate.net/public
 
 # Project Goal
 The goal of the policy implementation tracing is to help Ppolicy advisors to connect the national NDCs with policy documents to check if the goals are realised.
-We therefore build a web-application where polica analysts can upload a policy document and
+We therefore build a web-application where polica analysts can upload a policy document which then gets analyzed for:  
+
+1) Overall Topic of the documents (Summary)  
+  * TF-IDF
+  * Text suammarization
+2) Sustainable Development Goals related topics
+  * Classification using data from https://osdg.ai/ (english only?)
+3) NDC related topics 
+  * Using keyword ontologies and semantic search
 
