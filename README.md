@@ -23,9 +23,17 @@ We therefore build a web-application where polica analysts can upload a policy d
 
 1) Overall Topic of the documents (Summary)  
   * TF-IDF
-  * Text suammarization
+  * Text suammarization  
+<p align="center">
+  <img width="200" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/topics.png" alt="topics">
+</p>
+  
 2) Sustainable Development Goals related topics
   * Classification using data from https://osdg.ai/ (english only?)
+  
 3) NDC related topics 
-  * Using keyword ontologies and semantic search
+  * Using keyword ontologies and semantic search  
 
+<p align="center">
+  <img width="200" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/semantic_search.png" alt="semantic_search">
+</p>
