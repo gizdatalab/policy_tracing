@@ -45,6 +45,7 @@ Open Questions:
   * Processing only machine readable PDF and Docx
   * how to split long documents
   * Summarization possible with OS ressources (Transformer; runtime, usage limits)
+  * Topic modelling on NDCs?
   * SDG classification with OS ressources (Transformer; runtime, usage limits)
   * vector search with OS ressources (Transformer; runtime, usage limits)
   * Coherence measurement BLEU score vs. text similarity vs. ...
