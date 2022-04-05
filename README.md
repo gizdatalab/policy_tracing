@@ -53,3 +53,7 @@ Open Questions:
   * Adapting model to domain
   * Multiligunal models vs translation
   * Deployment of Azure Cloud ressources
+
+Streamlit Demo:  
+https://share.streamlit.io/janmuehlnikel/streamlit_demo/app.py
+
