@@ -3,8 +3,7 @@
 </p> 
     
 # Tracing Policy Implementations 2.0
-scaling development of the ETH Hack4Good with SDSN  
-
+This repo scals the ideas of the ETH Hack4Good Hachathon 2021 with SDSN & GIZ  
 https://www.blog-datalab.com/policy-tracing-nlp-h4g
 
 <p align="center">
