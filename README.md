@@ -1,5 +1,5 @@
 # Tracing Policy Implementations 2.0
-scaling development of the ETH Hack4Good with SDSN
+scaling development of the ETH Hack4Good with SDSN  
 https://www.blog-datalab.com/policy-tracing-nlp-h4g
 
 <p align="center">
@@ -13,5 +13,6 @@ Example NDC from South Africa: [NDC South Africa](https://www.dffe.gov.za/sites/
 Excample Policy Document: [National REDD SA](https://www.researchgate.net/publication/236347801_South_Africa's_national_REDD_initiative_Assessing_the_potential_of_the_forestry_sector_on_climate_change_mitigation)
 
 # Project Goal
-The goal of the policy implementation tracing is to connect local NDCs with Policy Documents to check if the goals are realised.
+The goal of the policy implementation tracing is to help Ppolicy advisors to connect the national NDCs with policy documents to check if the goals are realised.
+We therefore build a web-application where polica analysts can upload a policy document and
 
