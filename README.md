@@ -21,14 +21,14 @@ The goal of the policy implementation tracing is to help Ppolicy advisors to con
 We therefore build a web-application where polica analysts can upload a policy document which then gets analyzed for:  
 
 ## 1) Overall Topic of the documents (Summary)  
-  * TF-IDF
-  * Text suammarization  
+  * TF-IDF /   Text suammarization  
+  * 
 <p align="center">
   <img width="400" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/topics.png" alt="topics">
 </p>
   
 ## 2) Sustainable Development Goals related topics
-  * Classification using data from https://osdg.ai/ (english only?)
+  * Classification using Transformer and data from https://osdg.ai/ 
   
 ## 3) NDC related topics 
   * Using keyword ontologies and semantic search  
@@ -36,3 +36,14 @@ We therefore build a web-application where polica analysts can upload a policy d
 <p align="center">
   <img width="400" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/semantic_search.png" alt="semantic_search">
 </p>
+
+Open Questions:
+  * Processing only machine readable PDF and Docx
+  * how to split long documents
+  * Summarization possible with OS ressources (Transformer; runtime, usage limits)
+  * SDG classification with OS ressources (Transformer; runtime, usage limits)
+  * vector search with OS ressources (Transformer; runtime, usage limits)
+  * Streamlit vs. Gradio (Spaces)
+  * Adapting model to domain
+  * Multiligunal models vs translation
+  * Deployment of Azure Cloud ressources
