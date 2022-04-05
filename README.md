@@ -1,5 +1,5 @@
 <p align="right">
-  <img width="400" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/sdsn.png" alt="sdsn">
+  <img width="200" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/sdsn.png" alt="sdsn">
 </p> 
     
 # Tracing Policy Implementations 2.0
