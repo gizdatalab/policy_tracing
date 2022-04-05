@@ -25,7 +25,7 @@ We therefore build a web-application where polica analysts can upload a policy d
   * TF-IDF
   * Text suammarization  
 <p align="center">
-  <img width="200" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/topics.png" alt="topics">
+  <img width="400" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/topics.png" alt="topics">
 </p>
   
 2) Sustainable Development Goals related topics
@@ -35,5 +35,5 @@ We therefore build a web-application where polica analysts can upload a policy d
   * Using keyword ontologies and semantic search  
 
 <p align="center">
-  <img width="200" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/semantic_search.png" alt="semantic_search">
+  <img width="400" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/semantic_search.png" alt="semantic_search">
 </p>
