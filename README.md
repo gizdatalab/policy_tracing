@@ -1,6 +1,9 @@
+<img width="600" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/sdsn.png" alt="sdsn">
+  
+    
 # Tracing Policy Implementations 2.0
 scaling development of the ETH Hack4Good with SDSN  
-<img width="600" src="https://github.com/gizdatalab/policy_tracing/blob/main/img/sdsn.png" alt="sdsn">
+
 https://www.blog-datalab.com/policy-tracing-nlp-h4g
 
 <p align="center">
