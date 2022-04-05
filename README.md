@@ -3,7 +3,8 @@ scaling development of the ETH Hack4Good with SDSN
 https://www.blog-datalab.com/policy-tracing-nlp-h4g
 
 <p align="center">
-![public spaces](https://github.com/gizdatalab/policy_tracing/blob/main/ndc_policy.png?raw=true)
+  <img width="200" src="https://github.com/gizdatalab/policy_tracing/blob/main/ndc_policy.png?raw=true" alt="policy">
+  ![policy](https://github.com/gizdatalab/policy_tracing/blob/main/ndc_policy.png?raw=true)
 </p>
 
 # The Problem
