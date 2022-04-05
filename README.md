@@ -39,7 +39,8 @@ We therefore build a web-application where polica analysts can upload a policy d
 
 ## 4) Coherence to national NDC
   * compare policy to NDC document 
-
+  
+    
 Open Questions:
   * Processing only machine readable PDF and Docx
   * how to split long documents
