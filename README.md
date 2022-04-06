@@ -42,7 +42,7 @@ We therefore build a web-application where polica analysts can upload a policy d
   
     
 Open Questions:
-  * Processing only machine readable PDF and Docx
+  * Processing only machine readable PDF and Docx (HayStack?)
   * how to split long documents
   * Summarization possible with OS ressources (Transformer; runtime, usage limits)
   * Topic modelling on NDCs?
