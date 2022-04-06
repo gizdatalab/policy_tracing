@@ -49,6 +49,7 @@ Open Questions:
   * Named Entity Recognition?
   * SDG classification with OS ressources (Transformer; runtime, usage limits)
   * vector search with OS ressources (Transformer; runtime, usage limits)
+  * query keyword(s) / questions / sentence / paragraph?
   * Coherence measurement BLEU score vs. text similarity vs. ...
   * Streamlit vs. Gradio (Spaces)
   * Adapting model to domain
