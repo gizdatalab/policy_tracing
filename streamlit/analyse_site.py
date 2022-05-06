@@ -1,16 +1,11 @@
+import pdfminer
+from pdfminer.high_level import extract_pages
 import streamlit as st
-from pdfminer3.layout import LAParams, LTTextBox
-from pdfminer3.pdfpage import PDFPage
-from pdfminer3.pdfinterp import PDFResourceManager
-from pdfminer3.pdfinterp import PDFPageInterpreter
-from pdfminer3.converter import PDFPageAggregator
-from pdfminer3.converter import TextConverter
-import io
+from io import StringIO
+import base64
+import pdfplumber
 
-resource_manager = PDFResourceManager()
-fake_file_handle = io.StringIO()
-converter = TextConverter(resource_manager, fake_file_handle, laparams=LAParams())
-page_interpreter = PDFPageInterpreter(resource_manager, converter)
+
 
 def app():
     # Sidebar
@@ -23,23 +18,15 @@ def app():
         file = st.file_uploader('Upload', type=['pdf'])
         
 
-        with open(file, 'rb') as fh:
-
-            for page in PDFPage.get_pages(fh,
-                                          caching=True,
-                                          check_extractable=True):
-                page_interpreter.process_page(page)
-
-            text = fake_file_handle.getvalue()
-
-        # close open handles
-        converter.close()
-        fake_file_handle.close()
-
 
         if file is not None:
+            with pdfplumber.open(file) as pdf:
+                pages = pdf.pages[0]
+                st.write(pages.extract_text())
+
+        
             st.write('... ')
-            st.write(text)
+
         else:
             st.write(' ')
             st.write(' ')
