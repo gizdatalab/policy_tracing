@@ -1,8 +1,7 @@
-import pdfminer
-from pdfminer.high_level import extract_pages
+#import pdfminer
+#from pdfminer.high_level import extract_pages
 import streamlit as st
 from io import StringIO
-import base64
 import pdfplumber
 
 
