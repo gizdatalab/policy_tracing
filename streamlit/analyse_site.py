@@ -1,7 +1,4 @@
-#import pdfminer
-#from pdfminer.high_level import extract_pages
 import streamlit as st
-from io import StringIO
 import pdfplumber
 
 
@@ -14,14 +11,18 @@ def app():
     with st.container():
         st.markdown("<h1 style='text-align: center; color: black;'>SDSN X GIZ Policy Tracing</h1>",
                     unsafe_allow_html=True)
-        file = st.file_uploader('Upload', type=['pdf'])
+        file = st.file_uploader('Upload PDF File', type=['pdf'])
         
 
 
         if file is not None:
+            text = []
             with pdfplumber.open(file) as pdf:
-                pages = pdf.pages[0]
-                st.write(pages.extract_text())
+                for page in pdf.pages:
+                    text.append(page.extract_text())
+
+                st.write('Number of pages:',len(pdf.pages))
+                
 
         
             st.write('... ')
@@ -29,5 +30,5 @@ def app():
         else:
             st.write(' ')
             st.write(' ')
-            st.markdown("<h1 style='text-align: center; color: black;'>no PDF uploaded ...</h1>",
+            st.markdown("<h3 style='text-align: center; color: black;'>no PDF uploaded ...</h3>",
                         unsafe_allow_html=True)
