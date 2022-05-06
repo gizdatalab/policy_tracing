@@ -1,4 +1,4 @@
 streamlit
 numpy
-pdfPlumber
-pdfMiner3
+pdfplumber
+
