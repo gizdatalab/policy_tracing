@@ -1,4 +1,5 @@
 streamlit
 numpy
 pdfplumber
-
+sentence-transformers
+st-annotated-text
