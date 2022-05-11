@@ -1,8 +1,8 @@
-streamlit
+streamlit==1.4.0
 numpy
-pdfplumber
 sentence-transformers
 st-annotated-text
 keybert
 pandas
 seaborn
+pdfplumber
