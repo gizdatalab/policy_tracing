@@ -6,6 +6,8 @@ import spacy
 import en_core_web_sm
 import re
 
+from haystack.nodes import PreProcessor
+
 '''basic cleaning - suitable for transformer models'''
 def basic(s):
     """
@@ -33,6 +35,33 @@ def basic(s):
     #s = re.sub(r'strengthenedstakeholder', 'strengthened stakeholder', s)
     
     return s.strip()
+
+
+def preprocessing(document):
+
+    """
+    takes in haystack document object and splits it into paragraphs and applies simple cleaning.
+
+    Returns cleaned list of haystack document objects. One paragraph per object.
+    """    
+
+    preprocessor = PreProcessor(
+        clean_empty_lines=True,
+        clean_whitespace=True,
+        clean_header_footer=True,
+        split_by="word",
+        split_length=120,
+        split_respect_sentence_boundary=True,
+        #split_overlap=5
+    )
+    for i in document:
+        docs_processed = preprocessor.process([i])
+        for i in docs_processed:
+            i.content = basic(i.content)
+
+    #print(f"n_docs_input: 1\nn_docs_output: {len(docs_default)}")
+    
+    return docs_processed
 
 '''processing with spacy - suitable for models such as tf-idf, word2vec'''
 def spacy_clean(alpha:str, use_nlp:bool = True) -> str:

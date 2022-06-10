@@ -12,6 +12,7 @@ from haystack.nodes.file_converter import BaseConverter, DocxToTextConverter, PD
 from haystack.schema import Document
 import pdfplumber
 
+
 def load_document(
     file: str,
     encoding: Optional[str] = None,
@@ -22,6 +23,8 @@ def load_document(
     takes docx, txt and pdf files as input and extracts text as well as the filename as metadata. Since haystack
     does not take care of all pdf files, pdfplumber is attached to the pipeline in case the pdf extraction fails
     via Haystack.
+
+    Returns a list of type haystack.schema.Document
     """
 
     if file.endswith('.pdf'):

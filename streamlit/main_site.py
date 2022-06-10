@@ -1,5 +1,10 @@
+import glob, os, sys; sys.path.append('../src')
+#import helper
+import preprocessing as pre
+import cleaning as clean
+
+#import basics
 import seaborn as sns
-import pdfplumber
 from pandas import DataFrame
 from keybert import KeyBERT
 import matplotlib.pyplot as plt
