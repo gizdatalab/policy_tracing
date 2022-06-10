@@ -1,8 +1,6 @@
 import streamlit as st
 import pdfplumber
 
-
-
 def app():
     # Sidebar
     st.sidebar.title('Analyse Policy Document')
