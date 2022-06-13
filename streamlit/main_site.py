@@ -35,16 +35,23 @@ def app():
     
     with st.container():
 
-        file = st.file_uploader('Upload PDF File', type=['pdf'])
+        file = st.file_uploader('Upload PDF File', type=['pdf', 'docx', 'txt'])
 
         if file is not None:
-            text = []
-            with pdfplumber.open(file) as pdf:
-                for page in pdf.pages:
-                    text.append(page.extract_text())
-                text_str = ' '.join([page for page in text])
+            st.write("Filename: ", file.name)
+            # text = []
+            # with pdfplumber.open(file) as pdf:
+            #     for page in pdf.pages:
+            #         text.append(page.extract_text())
+            #     text_str = ' '.join([page for page in text])
 
-                st.write('Number of pages:',len(pdf.pages))
+            #     st.write('Number of pages:',len(pdf.pages))
+
+            # load document
+            docs = pre.load_document(file)
+
+            # preprocess document
+            docs_processed, df, all_text = clean.preprocessing(docs)
 
             @st.cache(allow_output_mutation=True)
             def load_model():
@@ -53,7 +60,7 @@ def app():
             kw_model = load_model()
 
             keywords = kw_model.extract_keywords(
-            text_str,
+            all_text,
             keyphrase_ngram_range=(1, 2),
             use_mmr=True,
             stop_words="english",
@@ -97,7 +104,7 @@ def app():
             finetuned_checkpoint = "peter2000/roberta-base-finetuned-osdg"
             classifier = pipeline("text-classification", model=finetuned_checkpoint)
 
-            word_list = text_str.split()
+            word_list = all_text.split()
             len_word_list = len(word_list)
             par_list = []
             par_len = 130
@@ -147,3 +154,4 @@ def app():
                 st.table(df) 
             
             
+

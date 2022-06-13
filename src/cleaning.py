@@ -5,6 +5,7 @@ import nltk
 import spacy
 import en_core_web_sm
 import re
+import streamlit as st
 
 from haystack.nodes import PreProcessor
 
@@ -42,7 +43,8 @@ def preprocessing(document):
     """
     takes in haystack document object and splits it into paragraphs and applies simple cleaning.
 
-    Returns cleaned list of haystack document objects. One paragraph per object.
+    Returns cleaned list of haystack document objects. One paragraph per object. Also returns pandas df and 
+    list that contains all text joined together.
     """    
 
     preprocessor = PreProcessor(
@@ -56,12 +58,16 @@ def preprocessing(document):
     )
     for i in document:
         docs_processed = preprocessor.process([i])
-        for i in docs_processed:
-            i.content = basic(i.content)
+        for item in docs_processed:
+            item.content = basic(item.content)
 
-    #print(f"n_docs_input: 1\nn_docs_output: {len(docs_default)}")
+    st.write("your document has been splitted to", len(docs_processed), "paragraphs")
     
-    return docs_processed
+    # create dataframe of text and list of all text
+    df = pd.DataFrame(docs_processed)
+    all_text = "".join(df.content.to_list())
+
+    return docs_processed, df, all_text
 
 '''processing with spacy - suitable for models such as tf-idf, word2vec'''
 def spacy_clean(alpha:str, use_nlp:bool = True) -> str:
