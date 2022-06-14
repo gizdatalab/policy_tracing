@@ -5,6 +5,9 @@ import nltk
 import spacy
 import en_core_web_sm
 import re
+import streamlit as st
+
+from haystack.nodes import PreProcessor
 
 '''basic cleaning - suitable for transformer models'''
 def basic(s):
@@ -33,6 +36,38 @@ def basic(s):
     #s = re.sub(r'strengthenedstakeholder', 'strengthened stakeholder', s)
     
     return s.strip()
+
+
+def preprocessing(document):
+
+    """
+    takes in haystack document object and splits it into paragraphs and applies simple cleaning.
+
+    Returns cleaned list of haystack document objects. One paragraph per object. Also returns pandas df and 
+    list that contains all text joined together.
+    """    
+
+    preprocessor = PreProcessor(
+        clean_empty_lines=True,
+        clean_whitespace=True,
+        clean_header_footer=True,
+        split_by="word",
+        split_length=120,
+        split_respect_sentence_boundary=True,
+        #split_overlap=5
+    )
+    for i in document:
+        docs_processed = preprocessor.process([i])
+        for item in docs_processed:
+            item.content = basic(item.content)
+
+    st.write("your document has been splitted to", len(docs_processed), "paragraphs")
+    
+    # create dataframe of text and list of all text
+    df = pd.DataFrame(docs_processed)
+    all_text = " ".join(df.content.to_list())
+
+    return docs_processed, df, all_text
 
 '''processing with spacy - suitable for models such as tf-idf, word2vec'''
 def spacy_clean(alpha:str, use_nlp:bool = True) -> str:

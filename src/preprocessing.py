@@ -12,6 +12,10 @@ from haystack.nodes.file_converter import BaseConverter, DocxToTextConverter, PD
 from haystack.schema import Document
 import pdfplumber
 
+import pandas as pd
+
+
+
 def load_document(
     file: str,
     encoding: Optional[str] = None,
@@ -22,13 +26,15 @@ def load_document(
     takes docx, txt and pdf files as input and extracts text as well as the filename as metadata. Since haystack
     does not take care of all pdf files, pdfplumber is attached to the pipeline in case the pdf extraction fails
     via Haystack.
+
+    Returns a list of type haystack.schema.Document
     """
 
-    if file.endswith('.pdf'):
+    if file.name.endswith('.pdf'):
         converter = PDFToTextConverter(remove_numeric_tables=True)
-    if file.endswith('.txt'):
+    if file.name.endswith('.txt'):
         converter = TextConverter()
-    if file.endswith('.docx'):
+    if file.name.endswith('.docx'):
         converter = DocxToTextConverter()
 
     print(converter)
@@ -50,6 +56,6 @@ def load_document(
                 for page in pdf.pages:
                     text.append(page.extract_text())
             i.content = ' '.join([page for page in text])
-        
+    
     return documents
 
