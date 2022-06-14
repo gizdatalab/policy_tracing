@@ -1,6 +1,6 @@
 django_haystack==3.2.1
 spacy==3.2.3
-https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0.tar.gz#egg=en_core_web_sm
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.2.3.tar.gz#egg=en_core_web_sm
 keybert==0.5.1
 matplotlib==3.5.1
 nltk==3.7
