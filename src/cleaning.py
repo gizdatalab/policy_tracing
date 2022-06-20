@@ -66,8 +66,9 @@ def preprocessing(document):
     # create dataframe of text and list of all text
     df = pd.DataFrame(docs_processed)
     all_text = " ".join(df.content.to_list())
+    par_list = df.content.to_list()
 
-    return docs_processed, df, all_text
+    return docs_processed, df, all_text, par_list
 
 '''processing with spacy - suitable for models such as tf-idf, word2vec'''
 def spacy_clean(alpha:str, use_nlp:bool = True) -> str:

@@ -4,8 +4,11 @@ from pathlib import Path
 import re
 import logging
 import string 
-
+import streamlit as st
 logger = logging.getLogger(__name__)
+
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 from haystack.utils import convert_files_to_docs, fetch_archive_from_http
 from haystack.nodes.file_converter import BaseConverter, DocxToTextConverter, PDFToTextConverter, TextConverter
@@ -37,7 +40,7 @@ def load_document(
     if file.name.endswith('.docx'):
         converter = DocxToTextConverter()
 
-    print(converter)
+    st.write(converter)
     documents = []
 
     logger.info("Converting {}".format(file))
