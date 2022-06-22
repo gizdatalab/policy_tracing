@@ -1,15 +1,20 @@
+# set path
 import glob, os, sys; sys.path.append('../src')
+
 #import helper
 import preprocessing as pre
 import cleaning as clean
 
-#import basics
+#import needed libraries
 import seaborn as sns
 from pandas import DataFrame
 from keybert import KeyBERT
+from transformers import pipeline
 import matplotlib.pyplot as plt
 import numpy as np
 import streamlit as st
+import pandas as pd 
+
 
 def app():
 
@@ -36,28 +41,38 @@ def app():
     with st.container():
 
         file = st.file_uploader('Upload PDF File', type=['pdf', 'docx', 'txt'])
-
+        
         if file is not None:
+            
             st.write("Filename: ", file.name)
-            # text = []
-            # with pdfplumber.open(file) as pdf:
-            #     for page in pdf.pages:
-            #         text.append(page.extract_text())
-            #     text_str = ' '.join([page for page in text])
-
-            #     st.write('Number of pages:',len(pdf.pages))
+            st.write(file)
 
             # load document
             docs = pre.load_document(file)
 
             # preprocess document
-            docs_processed, df, all_text = clean.preprocessing(docs)
+            docs_processed, df, all_text, par_list = clean.preprocessing(docs)
+            
+            # testing
+            st.write(len(all_text))
+            for i in par_list:
+                st.write(i)
+
+            # # testing: print dataframe to check if text is properly processed...
+            # # is this something to unit test? 
+
+            # #########
+            # for i in range(len(df)):
+            #     st.write(df.content.iloc[i])
+            #     st.write("____")
+            # st.write(len(all_text))
+            # #########
 
             @st.cache(allow_output_mutation=True)
-            def load_model():
+            def load_keyBert():
                 return KeyBERT()
 
-            kw_model = load_model()
+            kw_model = load_keyBert()
 
             keywords = kw_model.extract_keywords(
             all_text,
@@ -98,19 +113,31 @@ def app():
             with c2:
                 st.table(df) 
 
-            ######## SDG!
-            from transformers import pipeline 
+            ######## SDG classiciation
+            # @st.cache(allow_output_mutation=True)
+            # def load_sdgClassifier():
+            #     classifier = pipeline("text-classification", model= "../models/osdg_sdg/")
 
-            finetuned_checkpoint = "peter2000/roberta-base-finetuned-osdg"
-            classifier = pipeline("text-classification", model=finetuned_checkpoint)
+            #     return classifier
+            
+            # load from disc (github repo) for performance boost
+            @st.cache(allow_output_mutation=True)
+            def load_sdgClassifier():
+                classifier = pipeline("text-classification", model= "../models/osdg_sdg/")
 
-            word_list = all_text.split()
-            len_word_list = len(word_list)
-            par_list = []
-            par_len = 130
-            for i in range(0,len_word_list // par_len):
-                string_part = ' '.join(word_list[i*par_len:(i+1)*par_len])
-                par_list.append(string_part)
+                return classifier
+
+            classifier = load_sdgClassifier()
+
+            # # not needed, par list comes from pre_processing function already
+
+            # word_list = all_text.split()
+            # len_word_list = len(word_list)
+            # par_list = []
+            # par_len = 130
+            # for i in range(0,len_word_list // par_len):
+            #     string_part = ' '.join(word_list[i*par_len:(i+1)*par_len])
+            #     par_list.append(string_part)
                 
             labels = classifier(par_list)
             labels_= [(l['label'],l['score']) for l in labels]
@@ -118,7 +145,7 @@ def app():
             df['text'] = par_list      
             df = df.sort_values(by="Relevancy", ascending=False).reset_index(drop=True)  
             df.index += 1
-            #df =df[df['Relevancy']>.95]
+            df =df[df['Relevancy']>.85]
             x = df['SDG'].value_counts()
 
             plt.rcParams['font.size'] = 25
