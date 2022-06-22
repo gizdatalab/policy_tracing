@@ -41,20 +41,11 @@ def app():
     with st.container():
 
         file = st.file_uploader('Upload PDF File', type=['pdf', 'docx', 'txt'])
-
+        
         if file is not None:
             
             st.write("Filename: ", file.name)
             st.write(file)
-
-            # # using pdflumber:
-            # text = []
-            # with pdfplumber.open(file) as pdf:
-            #     for page in pdf.pages:
-            #         text.append(page.extract_text())
-            #     text_str = ' '.join([page for page in text])
-
-            #     st.write('Number of pages:',len(pdf.pages))
 
             # load document
             docs = pre.load_document(file)
@@ -62,6 +53,10 @@ def app():
             # preprocess document
             docs_processed, df, all_text, par_list = clean.preprocessing(docs)
             
+            # testing
+            st.write(len(all_text))
+            for i in par_list:
+                st.write(i)
 
             # # testing: print dataframe to check if text is properly processed...
             # # is this something to unit test? 
