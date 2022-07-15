@@ -15,6 +15,8 @@ import numpy as np
 import streamlit as st
 import pandas as pd 
 
+import tempfile
+import sqlite3
 
 def app():
 
@@ -44,141 +46,135 @@ def app():
         
         if file is not None:
             
-            st.write("Filename: ", file.name)
-            st.write(file)
-
-            # load document
-            docs = pre.load_document(file)
-
-            # preprocess document
-            docs_processed, df, all_text, par_list = clean.preprocessing(docs)
+    
+            with tempfile.NamedTemporaryFile(mode="wb") as temp:
+                bytes_data = file.getvalue()
+                temp.write(bytes_data)
             
-            # testing
-            st.write(len(all_text))
-            for i in par_list:
-                st.write(i)
-
-            # # testing: print dataframe to check if text is properly processed...
-            # # is this something to unit test? 
-
-            # #########
-            # for i in range(len(df)):
-            #     st.write(df.content.iloc[i])
-            #     st.write("____")
-            # st.write(len(all_text))
-            # #########
-
-            @st.cache(allow_output_mutation=True)
-            def load_keyBert():
-                return KeyBERT()
-
-            kw_model = load_keyBert()
-
-            keywords = kw_model.extract_keywords(
-            all_text,
-            keyphrase_ngram_range=(1, 2),
-            use_mmr=True,
-            stop_words="english",
-            top_n=15,
-            diversity=0.7,
-            )
-
-            st.markdown("## 🎈 What is my document about?")
-        
-            df = (
-                DataFrame(keywords, columns=["Keyword/Keyphrase", "Relevancy"])
-                .sort_values(by="Relevancy", ascending=False)
-                .reset_index(drop=True)
-            )
-
-            df.index += 1
-
-            # Add styling
-            cmGreen = sns.light_palette("green", as_cmap=True)
-            cmRed = sns.light_palette("red", as_cmap=True)
-            df = df.style.background_gradient(
-                cmap=cmGreen,
-                subset=[
-                    "Relevancy",
-                ],
-            )
-            c1, c2, c3 = st.columns([1, 3, 1])
-
-            format_dictionary = {
-                "Relevancy": "{:.1%}",
-            }
-
-            df = df.format(format_dictionary)
-
-            with c2:
-                st.table(df) 
-
-            ######## SDG classiciation
-            # @st.cache(allow_output_mutation=True)
-            # def load_sdgClassifier():
-            #     classifier = pipeline("text-classification", model= "../models/osdg_sdg/")
-
-            #     return classifier
-            
-            # load from disc (github repo) for performance boost
-            @st.cache(allow_output_mutation=True)
-            def load_sdgClassifier():
-                classifier = pipeline("text-classification", model= "../models/osdg_sdg/")
-
-                return classifier
-
-            classifier = load_sdgClassifier()
-
-            # # not needed, par list comes from pre_processing function already
-
-            # word_list = all_text.split()
-            # len_word_list = len(word_list)
-            # par_list = []
-            # par_len = 130
-            # for i in range(0,len_word_list // par_len):
-            #     string_part = ' '.join(word_list[i*par_len:(i+1)*par_len])
-            #     par_list.append(string_part)
+                st.write("Filename: ", file.name)
                 
-            labels = classifier(par_list)
-            labels_= [(l['label'],l['score']) for l in labels]
-            df = DataFrame(labels_, columns=["SDG", "Relevancy"])
-            df['text'] = par_list      
-            df = df.sort_values(by="Relevancy", ascending=False).reset_index(drop=True)  
-            df.index += 1
-            df =df[df['Relevancy']>.85]
-            x = df['SDG'].value_counts()
+                # load document
+                docs = pre.load_document(temp.name, file)
 
-            plt.rcParams['font.size'] = 25
-            colors = plt.get_cmap('Blues')(np.linspace(0.2, 0.7, len(x)))
-            # plot
-            fig, ax = plt.subplots()
-            ax.pie(x, colors=colors, radius=2, center=(4, 4),
-                 wedgeprops={"linewidth": 1, "edgecolor": "white"}, frame=False,labels =list(x.index))
+                # preprocess document
+                docs_processed, df, all_text, par_list = clean.preprocessing(docs)
+                
+                # testing
+                # st.write(len(all_text))
+                # for i in par_list:
+                #     st.write(i)
 
-            st.markdown("## 🎈 Anything related to SDGs?")
+                @st.cache(allow_output_mutation=True)
+                def load_keyBert():
+                    return KeyBERT()
 
-            c4, c5, c6 = st.columns([5, 7, 1])
+                kw_model = load_keyBert()
 
-            # Add styling
-            cmGreen = sns.light_palette("green", as_cmap=True)
-            cmRed = sns.light_palette("red", as_cmap=True)
-            df = df.style.background_gradient(
-                cmap=cmGreen,
-                subset=[
-                    "Relevancy",
-                ],
-            )
+                keywords = kw_model.extract_keywords(
+                all_text,
+                keyphrase_ngram_range=(1, 2),
+                use_mmr=True,
+                stop_words="english",
+                top_n=15,
+                diversity=0.7,
+                )
 
-            format_dictionary = {
-                "Relevancy": "{:.1%}",
-            }
-
-            df = df.format(format_dictionary)
-
-            with c4:
-                st.pyplot(fig)
-            with c5:
-                st.table(df) 
+                st.markdown("## 🎈 What is my document about?")
             
-            
+                df = (
+                    DataFrame(keywords, columns=["Keyword/Keyphrase", "Relevancy"])
+                    .sort_values(by="Relevancy", ascending=False)
+                    .reset_index(drop=True)
+                )
+
+                df.index += 1
+
+                # Add styling
+                cmGreen = sns.light_palette("green", as_cmap=True)
+                cmRed = sns.light_palette("red", as_cmap=True)
+                df = df.style.background_gradient(
+                    cmap=cmGreen,
+                    subset=[
+                        "Relevancy",
+                    ],
+                )
+                c1, c2, c3 = st.columns([1, 3, 1])
+
+                format_dictionary = {
+                    "Relevancy": "{:.1%}",
+                }
+
+                df = df.format(format_dictionary)
+
+                with c2:
+                    st.table(df) 
+
+                ######## SDG classiciation
+                # @st.cache(allow_output_mutation=True)
+                # def load_sdgClassifier():
+                #     classifier = pipeline("text-classification", model= "../models/osdg_sdg/")
+
+                #     return classifier
+                
+                # load from disc (github repo) for performance boost
+                @st.cache(allow_output_mutation=True)
+                def load_sdgClassifier():
+                    classifier = pipeline("text-classification", model= "../models/osdg_sdg/")
+
+                    return classifier
+
+                classifier = load_sdgClassifier()
+
+                # # not needed, par list comes from pre_processing function already
+
+                # word_list = all_text.split()
+                # len_word_list = len(word_list)
+                # par_list = []
+                # par_len = 130
+                # for i in range(0,len_word_list // par_len):
+                #     string_part = ' '.join(word_list[i*par_len:(i+1)*par_len])
+                #     par_list.append(string_part)
+                    
+                labels = classifier(par_list)
+                labels_= [(l['label'],l['score']) for l in labels]
+                df = DataFrame(labels_, columns=["SDG", "Relevancy"])
+                df['text'] = par_list      
+                df = df.sort_values(by="Relevancy", ascending=False).reset_index(drop=True)  
+                df.index += 1
+                df =df[df['Relevancy']>.85]
+                x = df['SDG'].value_counts()
+
+                plt.rcParams['font.size'] = 25
+                colors = plt.get_cmap('Blues')(np.linspace(0.2, 0.7, len(x)))
+                # plot
+                fig, ax = plt.subplots()
+                ax.pie(x, colors=colors, radius=2, center=(4, 4),
+                    wedgeprops={"linewidth": 1, "edgecolor": "white"}, frame=False,labels =list(x.index))
+
+                st.markdown("## 🎈 Anything related to SDGs?")
+
+                c4, c5, c6 = st.columns([5, 7, 1])
+
+                # Add styling
+                cmGreen = sns.light_palette("green", as_cmap=True)
+                cmRed = sns.light_palette("red", as_cmap=True)
+                df = df.style.background_gradient(
+                    cmap=cmGreen,
+                    subset=[
+                        "Relevancy",
+                    ],
+                )
+
+                format_dictionary = {
+                    "Relevancy": "{:.1%}",
+                }
+
+                df = df.format(format_dictionary)
+
+                with c4:
+                    st.pyplot(fig)
+                with c5:
+                    st.table(df) 
+                
+                
 

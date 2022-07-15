@@ -17,10 +17,14 @@ import pdfplumber
 
 import pandas as pd
 
+import tempfile
+import sqlite3
+
 
 
 def load_document(
     file: str,
+    file_name,
     encoding: Optional[str] = None,
     id_hash_keys: Optional[List[str]] = None,
 ) -> List[Document]:
@@ -33,27 +37,27 @@ def load_document(
     Returns a list of type haystack.schema.Document
     """
 
-    if file.name.endswith('.pdf'):
+    if file_name.name.endswith('.pdf'):
         converter = PDFToTextConverter(remove_numeric_tables=True)
-    if file.name.endswith('.txt'):
+    if file_name.name.endswith('.txt'):
         converter = TextConverter()
-    if file.name.endswith('.docx'):
+    if file_name.name.endswith('.docx'):
         converter = DocxToTextConverter()
 
-    st.write(converter)
-    documents = []
 
-    logger.info("Converting {}".format(file))
+    documents = []
+    logger.info("Converting {}".format(file_name))
     # PDFToTextConverter, TextConverter, and DocxToTextConverter return a list containing a single Document
     document = converter.convert(
                 file_path=file, meta=None, encoding=encoding, id_hash_keys=id_hash_keys
             )[0]
     text = document.content
-    documents.append(Document(content=text, meta={"name": file}, id_hash_keys=id_hash_keys))
+    documents.append(Document(content=text, meta={"name": file_name}, id_hash_keys=id_hash_keys))
     
     '''check if text is empty and apply different pdf processor. This can happen whith certain pdf types.'''
     for i in documents: 
         if i.content == "":
+            st.write("using pdfplumber")
             text = []
             with pdfplumber.open(file) as pdf:
                 for page in pdf.pages:
