@@ -59,5 +59,5 @@ Open Questions:
   * Transparency on transformer model (training data)
 
 Streamlit Demo:  
-https://share.streamlit.io/janmuehlnikel/streamlit_demo/app.py
+[https://huggingface.co/spaces/GIZ/SDSN-demo](https://huggingface.co/spaces/GIZ/SDSN-demo)
 
